@@ -14,7 +14,7 @@ my $build = Module::Build->new
               'perl'            => '5.8.4',
               'Time::Piece'     => '1.15',
               'Time::Seconds'   => undef,
-              'Time::Local'     => '1.900',
+              'Time::Local'     => '1.1900',
     },
 );
 $build->create_build_script;
