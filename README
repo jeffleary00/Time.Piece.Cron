@@ -2,3 +2,29 @@ Time.Piece.Cron
 ===============
 
 Perl Time::Piece::Cron module
+
+Parse and evaluate times from crontab-like time specifier strings.
+
+
+
+Synopsis
+===============
+
+use Time::Piece;
+use Time::Piece::Cron;
+
+my $cron = Time::Piece::Cron->new();
+my $bool = $cron->is_now("08 30 * * *");
+my $timepiece = $cron->next_time("00 00 * 07 Mon");
+
+
+
+Install
+===============
+
+perl Build.PL
+Build
+Build test
+Build install
+
+
