@@ -12,9 +12,9 @@ my $build = Module::Build->new
     dist_author     => 'Jeff Leary',
     requires        => {
               'perl'            => '5.8.4',
-              'Time::Piece'     => '1.22',
-              'Time::Seconds'   => '1.17',
-              'Time::Local'     => '1.2100',
+              'Time::Piece'     => '1.15',
+              'Time::Seconds'   => undef,
+              'Time::Local'     => '1.900',
     },
 );
 $build->create_build_script;
