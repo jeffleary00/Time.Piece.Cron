@@ -1,16 +1,6 @@
 package Time::Piece::Cron;
 
-# ############################################################################
-#
-# Copyright (c) 2013 Jeffrey Leary. All rights reserved.
-#
-# This module is free software, you may distribute it under the same terms
-# as Perl.
-#
-# ############################################################################
-
-our $VERSION = "0.1";
-
+use 5.006;
 use strict;
 use warnings;
 use Carp;
@@ -18,28 +8,33 @@ use Time::Piece;
 use Time::Seconds;
 use Time::Local;
 
-
-=pod
-
 =head1 NAME
 
 Time::Piece::Cron - Parse and evaluate times from crontab strings.
 
+=head1 VERSION
+
+Version 0.1
+
+=cut
+
+our $VERSION = '0.1';
+
 =head1 SYNOPSIS
 
-C<< use Time::Piece; >>
+    use Time::Piece;
+    
+    use Time::Piece::Cron;
 
-C<< use Time::Piece::Cron; >>
-
-C<< $cron = Time::Piece::Cron->new(); >>
-
-C<< $timepiece = $cron->next_time("30 08 * * Mon-Fri"); >>
-
-C<< $time = $cron->next_timestamp("30 08 * * Mon-Fri"); >>
-
-C<< $bool = $cron->is_now("*/15 * * * *"); >>
-
-C<< $bool = $cron->parse_cron("30 08 * * Foo-Bar"); >>
+    my $cron = Time::Piece::Cron->new();
+    
+    my $timepiece = $cron->next_time("30 08 * * Mon-Fri");
+    
+    my $time = $cron->next_timestamp("30 08 * * Mon-Fri");
+    
+    my $bool = $cron->is_now("*/15 * * * *");
+    
+    my $bool = $cron->parse_cron("30 08 * * Foo-Bar");
 
 =head1 DESCRIPTION
 
@@ -48,13 +43,13 @@ standards, and the guidelines found in the "man 5 crontab" documentation.
 
 The cron time and date fields are:
 
-  field         allowed values
-  -----         --------------
-  minute        0-59
-  hour          0-23
-  day of month  1-31
-  month         1-12 (or names, see below)
-  day of week   0-7 (0 or 7 is Sun, or use names)
+field         allowed values
+-----         --------------
+minute        0-59
+hour          0-23
+day of month  1-31
+month         1-12 (or names, see below)
+day of week   0-7 (0 or 7 is Sun, or use names)
 
 A field may be an asterisk (*), which always stands for "first-last".
 
@@ -96,13 +91,9 @@ of each month, PLUS every Friday.
        
 (**) = Deviates from Vixie cron standard.
 
-      
 =head1 METHODS
 
-=cut
-
-
-=head3 new
+=head2 new
 
 Create a new Time::Piece::Cron instance;
 
@@ -114,7 +105,7 @@ RETURNS
 
 an object
 
-C<< $cron = Time::Piece::Cron->new(); >>
+    $cron = Time::Piece::Cron->new();
 
 =cut
 
@@ -160,7 +151,7 @@ sub new
 }
 
 
-=head3 is_now
+=head2 is_now
 
 Evaluate if a crontab string is true for the current time.
 
@@ -176,7 +167,7 @@ RETURNS
 
 0 if FALSE
 
-C<< $bool = $cron->is_now("30 08 * * Mon-Fri"); >>
+    $bool = $cron->is_now("30 08 * * Mon-Fri");
 
 =cut
 
@@ -233,7 +224,7 @@ sub is_now
 }
 
 
-=head3 next_time
+=head2 next_time
 
 Returns a Time::Piece object representing the next time a cron entry will run.
 
@@ -252,7 +243,7 @@ A Time::Piece object
 
 UNDEF on error.
 
-C<< $timepiece = $cron->next_time("30 08 * * *"); >>
+    $timepiece = $cron->next_time("30 08 * * *");
 
 =cut
 
@@ -417,7 +408,7 @@ sub next_time
 }
 
 
-=head3 next_timestamp
+=head2 next_timestamp
 
 Same as next_time(), but returns a regular perl timestamp (seconds since epoch)
 instead of a Time::Piece object.
@@ -435,7 +426,7 @@ A perl timestamp
 
 UNDEF on error.
 
-C<< $time = $cron->next_timestamp("30 08 * * *"); >>
+    $time = $cron->next_timestamp("30 08 * * *");
 
 =cut
 
@@ -452,7 +443,7 @@ sub next_timestamp
 }
 
 
-=head3 parse_cron
+=head2 parse_cron
 
 Parse a crontab time string, and test for validity.
 This method is mainly used internally, but may prove useful for other things.
@@ -474,9 +465,9 @@ ARRAY on success ([min 0-59],[hour 0-23],[mday 1-31],[mon 0-11],[wday 0-6])
 UNDEF on Error
 
 
-C<< $bool = $cron->parse_cron("30 08 * * Mon-Fri"); >>
+    $bool = $cron->parse_cron("30 08 * * Mon-Fri");
 
-C<< @atoms = $cron->parse_cron("30 08 * * Mon-Fri"); >>
+    @atoms = $cron->parse_cron("30 08 * * Mon-Fri");
 
 =cut
 
@@ -761,35 +752,77 @@ sub _next_possible
 }
 
 
-1;
+=head1 AUTHOR
 
-
-=head1 SEE ALSO
-
-Time::Piece ( http://perldoc.perl.org/Time/Piece.html )
-
-Cron ( http://wikipedia.org/wiki/Cron )
+Jeffrey Leary, C<< <jeff at sillymonkeysoftware.com> >>
 
 =head1 BUGS
 
+Please report any bugs or feature requests to C<bug-time-piece-cron at rt.cpan.org>, or through
+the web interface at L<http://rt.cpan.org/NoAuth/ReportBug.html?Queue=Time-Piece-Cron>.  I will be notified, and then you'll
+automatically be notified of progress on your bug as I make changes.
 
 =head1 TO DO
 
 Add a last_time() method.
 
-Test harness is very rudimentary. Could use more detailed tests.
+Test harness is very rudimentary. Could use better tests.
 
 Possibly add ability to handle special characters (L, W, ?, \#) found in some
 non-standard implementations of cron.
 
-=head1 AUTHOR
+=head1 SUPPORT
 
-Jeff Leary <jeff@sillymonkeysoftware.com> http://www.sillymonkeysoftware.com
+You can find documentation for this module with the perldoc command.
 
-=head1 COPYRIGHT AND LICENSE
+    perldoc Time::Piece::Cron
 
-Copyright (c) 2013 Jeffrey Leary.
 
-This module is free software, you may distribute it under the same terms
-as Perl.
+You can also look for information at:
 
+=over 4
+
+=item * RT: CPAN's request tracker (report bugs here)
+
+L<http://rt.cpan.org/NoAuth/Bugs.html?Dist=Time-Piece-Cron>
+
+=item * AnnoCPAN: Annotated CPAN documentation
+
+L<http://annocpan.org/dist/Time-Piece-Cron>
+
+=item * CPAN Ratings
+
+L<http://cpanratings.perl.org/d/Time-Piece-Cron>
+
+=item * Search CPAN
+
+L<http://search.cpan.org/dist/Time-Piece-Cron/>
+
+=back
+
+
+=head1 ACKNOWLEDGEMENTS
+
+
+=head1 SEE ALSO
+
+Time::Piece
+L<http://perldoc.perl.org/Time/Piece.html>
+
+Cron
+L<http://wikipedia.org/wiki/Cron>
+
+=head1 LICENSE AND COPYRIGHT
+
+Copyright 2013 Jeffrey Leary.
+
+This program is free software; you can redistribute it and/or modify it
+under the terms of either: the GNU General Public License as published
+by the Free Software Foundation; or the Artistic License.
+
+See http://dev.perl.org/licenses/ for more information.
+
+
+=cut
+
+1; # End of Time::Piece::Cron
