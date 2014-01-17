@@ -1,8 +1,10 @@
 Changes
 lib/Time/Piece/Cron.pm
-Makefile.PL
+Build.PL
 MANIFEST			This list of files
 README
+LICENSE
+Changes
 t/00-load.t
 t/manifest.t
 t/pod-coverage.t

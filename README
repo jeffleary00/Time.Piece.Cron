@@ -23,8 +23,8 @@ Install
 ===============
 
 perl Build.PL
-Build
-Build test
-Build install
+./Build
+./Build test
+./Build install
 
 
