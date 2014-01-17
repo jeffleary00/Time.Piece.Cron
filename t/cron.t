@@ -4,7 +4,7 @@
 
 use strict;
 
-use Test::More tests => 6;
+use Test::More tests => 5;
 
 
 ## BEGIN ##
